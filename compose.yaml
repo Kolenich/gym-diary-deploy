@@ -1,0 +1,40 @@
+name: gym-diary
+
+include:
+  - compose.infra.yaml
+
+networks:
+  frontend:
+  backend:
+
+volumes:
+  postgres-data:
+  redis-data:
+  static:
+
+services:
+  web:
+    image: kolenich/diary:web
+    env_file: ".env"
+    networks:
+      - frontend
+    ports:
+      - '80:80'
+    volumes:
+      - ./logs:/etc/nginx/logs
+      - static:/usr/share/nginx/html/${STATIC_URL}
+    depends_on:
+      - server
+  server:
+    image: kolenich/diary:server
+    restart: always
+    env_file: ".env"
+    networks:
+      - frontend
+      - backend
+    volumes:
+      - ./logs:/app/logs
+      - static:/app/static
+    depends_on:
+      - postgres
+      - redis
