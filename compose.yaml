@@ -15,6 +15,7 @@ volumes:
 services:
   web:
     build: ../web
+    restart: always
     env_file: ".env"
     networks:
       - frontend
