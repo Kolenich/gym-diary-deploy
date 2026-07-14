@@ -1,6 +1,6 @@
 services:
   postgres:
-    image: postgres:alpine
+    image: postgres
     restart: always
     volumes:
       - postgres-data:/var/lib/postgresql
@@ -9,7 +9,7 @@ services:
     env_file: ".env"
 
   redis:
-    image: redis:alpine
+    image: redis
     restart: always
     volumes:
       - redis-data:/data
